@@ -35,8 +35,8 @@ class Server:
         while True:
             tt=time.time()
             data=self.socket.get()
-            data=pickle.loads(data)
-            if data==0:
+            data=data
+            if data==bytes('','utf8'):
                 self.frame=0
                 break
             self.frame=data

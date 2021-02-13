@@ -20,13 +20,13 @@ class Server:
             t=time.time()
             data=self.screenShot.takeScreen()
             print(sys.getsizeof(data))
-            self.socket.send(pickle.dumps(self.screenShot.takeScreen()))
+            self.socket.send(self.screenShot.takeScreen())
 
             t=1/60-time.time()+t#frame controller 60
             print(t)
             if t>0:
                 time.sleep(t)
-        self.socket.send(pickle.dumps(0))
+        self.socket.send(bytes('','utf8'))
         print(time.time()-tt)
 
 
