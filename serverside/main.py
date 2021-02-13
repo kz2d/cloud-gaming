@@ -3,33 +3,40 @@ import sockett.main as sockett
 import sys, time
 import pickle
 
-def main():
-    #settings
-    screenShot=screen.ScreenRecorderInterface()
-    socket=sockett.Sockett()
-    settings=f"{screenShot.height}-{screenShot.width}"
-    socket.send(settings.encode('utf-8'))
-    #settings end
-    data=pickle.dumps(screenShot.takeScreen())
+
+class Server:
+    def __init__(self):
+        self.screenShot=screen.ScreenRecorderInterface()
+        self.socket=sockett.Sockett()
+        settings=f"{self.screenShot.height}-{self.screenShot.width}"
+        self.socket.send(settings.encode('utf-8'))
+
+
     
-    tt=time.time()
-    for i in range(120):
-        t=time.time()
-        
-        print(sys.getsizeof(data))
-        socket.send(pickle.dumps(screenShot.takeScreen()))
-        t=1/40-time.time()+t#frame controller 40
-        print(t)
-        if t>0:
-            time.sleep(t)
-    socket.send(pickle.dumps(0))
-    print(time.time()-tt)
+    def mainLoop(self):
+    
+        tt=time.time()
+        for i in range(120):
+            t=time.time()
+            
+            self.socket.send(pickle.dumps(self.screenShot.takeScreen()))
+            t=1/25-time.time()+t#frame controller 25
+            print(t)
+            if t>0:
+                time.sleep(t)
+        self.socket.send(pickle.dumps(0))
+        print(time.time()-tt)
 
-    socket.close()
 
-    screenShot.close()
-    print('lol')
+
+    def close(self):
+        self.socket.close()
+
+        self.screenShot.close()
+        print('Closed')
+
 
 if __name__=="__main__":
+    s=Server()
     while True:
-       main()
+       s.mainLoop()
