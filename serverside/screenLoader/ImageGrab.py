@@ -5,6 +5,8 @@ import win32gui, win32ui, win32con, win32api
 import sys
 import time
 import pickle
+import PIL
+from io import BytesIO
 
 
 class screen:
@@ -26,7 +28,10 @@ class screen:
 
 
     def grab_screen(self):
-        return self.d.frame_buffer[0]
+        frame=self.d.frame_buffer[0]
+        buff = BytesIO()
+        frame.save(buff, format="JPEG")
+        return buff.getvalue()
 
     def close(self):
         self.d.stop()

@@ -16,7 +16,6 @@ class Server:
     def show(self):
         i=0
         while True:
-            print(self.frame)
             if self.frame==0:
                 i+=1
                 if i>30:

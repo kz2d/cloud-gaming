@@ -1,5 +1,7 @@
 import cv2
 import numpy as np
+from PIL import Image
+from io import BytesIO
 
 
 class ShowWindow:
@@ -8,7 +10,9 @@ class ShowWindow:
         self.height=int(h)
 
     def show(self,bitArray):
-        img=np.array(bitArray)
+        bites=BytesIO(bitArray)
+        array=Image.open(bites)
+        img=np.array(array)
         print(img.shape) 
         # img = np.frombuffer(bitArray, dtype='uint8')
         # img.shape = (self.height,self.width,4)

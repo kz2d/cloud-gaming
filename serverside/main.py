@@ -18,9 +18,11 @@ class Server:
         tt=time.time()
         for i in range(120):
             t=time.time()
-            
+            data=self.screenShot.takeScreen()
+            print(sys.getsizeof(data))
             self.socket.send(pickle.dumps(self.screenShot.takeScreen()))
-            t=1/25-time.time()+t#frame controller 25
+
+            t=1/60-time.time()+t#frame controller 60
             print(t)
             if t>0:
                 time.sleep(t)
@@ -38,5 +40,6 @@ class Server:
 
 if __name__=="__main__":
     s=Server()
-    while True:
-       s.mainLoop()
+    s.mainLoop()
+    s.close()
+    time.sleep(11000)
