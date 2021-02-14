@@ -15,14 +15,12 @@ class Server:
     
     def mainLoop(self):
     
-        
-
         tt=time.time()
         for i in range(120):
             t=time.time()
             data=self.screenShot.takeScreen()
             print(sys.getsizeof(data))
-            self.socket.send(data)
+            self.socket.send(self.screenShot.takeScreen())
 
             t=1/60-time.time()+t#frame controller 60
             print(t)
